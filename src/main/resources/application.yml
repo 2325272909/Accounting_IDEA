@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   application:
-    name: todo
+    name: Accounting
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/Accounting?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
@@ -20,6 +20,7 @@ mybatis-plus:
     # 下划线分隔型的字段，自动与相应小驼峰命名的属性映射
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: Accounting/mapper/xml/*.xml
   global-config:
     db_config:
       id-type: ASSIGN_ID

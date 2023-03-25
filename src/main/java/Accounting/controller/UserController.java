@@ -2,17 +2,19 @@ package Accounting.controller;
 
 import Accounting.common.R;
 import Accounting.entity.User;
+import Accounting.service.IncomeTypeService;
+import Accounting.service.SpendingCredentialService;
+import Accounting.service.SpendingTypeService;
 import Accounting.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName:UserController
@@ -28,6 +30,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SpendingTypeService spendingTypeService;
+
+    @Autowired
+    private SpendingCredentialService spendingCredentialService;
+
+    @Autowired
+    private IncomeTypeService incomeTypeService;
 
     /**
      * 用户登录类
@@ -80,6 +91,7 @@ public class UserController {
         log.info("进入用户更新函数："+ user);
         Long id = (Long)session.getAttribute("userId");
         String name = (String)session.getAttribute("userName");  //目前登录的用户名
+        log.info("用户name:"+name);
 //        if(id==null){
 //            return R.error("用户未登录！");   //其实这是一个悖论，用户登陆后才会进到更新界面，测试使用
 //        }
@@ -91,28 +103,60 @@ public class UserController {
         User user1 = userService.getOne(queryWrapper);
 
         //如果有用户存在，且用户名不是目前登录的用户名，则表示已经有用户存在，
-        if(user1!=null && user.getUserName().equals(name)){
+        if(user1!=null && !user.getUserName().equals(name)){
             return R.error("用户名已存在！");
         }
         userService.updateById(user);
         session.setAttribute("userName",user.getUserName());
-
+        session.setAttribute("userId",user.getId());
         return R.success(user);
     }
 
+    //修改密码
     @PostMapping("/updatePassword")
-    public R<String> updatePassword(@RequestBody User user){
-        userService.updateById(user);
-        return R.success("修改密码成功！");
+    public R<String> updatePassword(@RequestBody User user,HttpSession session){
+        Long id = (Long)session.getAttribute("userId");
+        log.info("进入修改密码函数，获取的session中userId:"+id);
+        if(Objects.equals(id, user.getId())){
+            userService.updateById(user);
+            session.setAttribute("userId",id);
+            return R.success("修改密码成功！");
+
+        }else{
+            return R.error("用户未登录！");
+        }
+
     }
 
+    //退出
     @PostMapping("/loginout")
     public R<String> Loginout(HttpServletRequest request){
+        log.info(""+request.getSession().getAttribute("userId"));
         request.getSession().removeAttribute("userName");
         request.getSession().removeAttribute("userId");
         return R.success("退出成功");
     }
 
+    /**
+     * 根据传递的参数不同，读取不同的数据
+     * @param category
+     * @return
+     */
+    @GetMapping("/item/list")
+    public R<List<String>> ItemList(@RequestParam String category,HttpSession session){
+        Long userId =  (Long)session.getAttribute("userId");
+        log.info("进入category:");
+        log.info("userId:"+userId);
+//        userId= Long.valueOf("1");
+       if(category=="消费类型"){
+         return R.success(spendingTypeService.getSpendingTypes(userId));
+       }else if(category=="消费凭证"){
+           return R.success(spendingCredentialService.getSpendingCredential(userId));
+       }else{
+           //收入类型
+           return R.success(incomeTypeService.getIncomeTypes(userId));
+       }
 
+    }
 
 }

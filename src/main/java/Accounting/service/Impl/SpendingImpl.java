@@ -5,6 +5,7 @@ import Accounting.mapper.SpendingMapper;
 import Accounting.service.SpendingService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @ClassName:SpendingImpl
@@ -14,5 +15,6 @@ import org.springframework.stereotype.Service;
  * Version v1.0
  */
 @Service
+@Transactional
 public class SpendingImpl extends ServiceImpl<SpendingMapper, Spending> implements SpendingService {
 }

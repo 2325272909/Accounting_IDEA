@@ -1,6 +1,7 @@
 package Accounting;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -18,6 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AccountingApplication {
     public static void main(String[] args){
         SpringApplication.run(AccountingApplication.class,args);
-        log.info("todo项目启动成功...");
+        log.info("Accounting项目启动成功...");
     }
 }

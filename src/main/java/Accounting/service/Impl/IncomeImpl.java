@@ -5,6 +5,7 @@ import Accounting.mapper.IncomeMapper;
 import Accounting.service.IncomeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @ClassName:IncomeImpl
@@ -14,5 +15,6 @@ import org.springframework.stereotype.Service;
  * Version v1.0
  */
 @Service
+@Transactional
 public class IncomeImpl extends ServiceImpl<IncomeMapper, Income> implements IncomeService {
 }
