@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -15,7 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Slf4j
 @SpringBootApplication
-@EnableTransactionManagement
+@ServletComponentScan  //开启针对Servlet容器相关组件（特别是过滤器）的扫描，不开启则不起作用
+@EnableTransactionManagement  //开启事务管理
 public class AccountingApplication {
     public static void main(String[] args){
         SpringApplication.run(AccountingApplication.class,args);

@@ -1,5 +1,6 @@
 package Accounting.controller;
 
+import Accounting.common.BaseContext;
 import Accounting.common.R;
 import Accounting.entity.User;
 import Accounting.service.IncomeTypeService;
@@ -145,12 +146,13 @@ public class UserController {
     @GetMapping("/item/list")
     public R<List<String>> ItemList(@RequestParam String category,HttpSession session){
         Long userId =  (Long)session.getAttribute("userId");
-        log.info("进入category:");
-        log.info("userId:"+userId);
+        Long userId1 = BaseContext.getCurrentId();
+        log.info("进入category:"+category);
+        log.info("userId:"+userId+"  userId1:"+userId1);
 //        userId= Long.valueOf("1");
-       if(category=="消费类型"){
+       if(Objects.equals(category, "消费类型")){
          return R.success(spendingTypeService.getSpendingTypes(userId));
-       }else if(category=="消费凭证"){
+       }else if(Objects.equals(category, "消费凭证")){
            return R.success(spendingCredentialService.getSpendingCredential(userId));
        }else{
            //收入类型

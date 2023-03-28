@@ -20,7 +20,7 @@ import java.io.IOException;
  * Version v1.0
  */
 @Slf4j
-@WebFilter(filterName = "LoginCheckFilter",urlPatterns = "/*")
+//@WebFilter(filterName = "LoginCheckFilter",urlPatterns = "/*")
 public class LoginCheckFilter implements Filter {
 
     //定义路径匹配器，可以支持通配符的模式
