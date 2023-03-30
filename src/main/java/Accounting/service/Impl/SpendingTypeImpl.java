@@ -26,4 +26,9 @@ public class SpendingTypeImpl extends ServiceImpl<SpendingTypeMapper, SpendingTy
          List<String> lists = baseMapper.getSpendingTypes(userId);
          return lists;
     }
+
+    @Override
+    public boolean deleteSpendingType(Long userId, String spendingTypeName) {
+        return baseMapper.deleteSpendingType(userId,spendingTypeName);
+    }
 }

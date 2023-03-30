@@ -3,6 +3,7 @@ package Accounting.mapper;
 import Accounting.entity.IncomeType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,5 @@ import java.util.List;
 @MapperScan("Accounting/mapper/xml/IncomeTypeMapper.xml")
 public interface IncomeTypeMapper extends BaseMapper<IncomeType> {
     List<String> getIncomeTypes(Long userId);
+    boolean deleteItem(@Param("userId") Long userId, @Param("incomeTypeName") String incomeTypeName);
 }

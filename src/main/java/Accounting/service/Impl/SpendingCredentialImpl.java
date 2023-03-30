@@ -26,4 +26,9 @@ public class SpendingCredentialImpl extends ServiceImpl<SpendingCredentialMapper
         List<String> lists = baseMapper.getSpendingCredential(userId);
         return lists;
     }
+
+    @Override
+    public boolean deleteSpendingCredential(Long userId, String spendingCredentialName) {
+        return baseMapper.deleteSpendingCredential(userId,spendingCredentialName);
+    }
 }

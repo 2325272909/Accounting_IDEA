@@ -9,4 +9,9 @@
         where user_id=#{userId}
     </select>
 
+    <delete id="deleteItem" >
+        delete from incometype
+        where user_id=#{userId} and income_type_name=#{incomeTypeName}
+    </delete>
+
 </mapper>

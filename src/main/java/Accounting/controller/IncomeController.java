@@ -29,6 +29,11 @@ public class IncomeController {
     @Autowired
     private IncomeTypeService incomeTypeService;
 
+    /**
+     * 添加收入
+     * @param income
+     * @return
+     */
     @PostMapping("/add")
     public R<String> add(@RequestBody Income income){
         log.info("进入添加收入记录函数，income:"+income.toString());
@@ -40,6 +45,11 @@ public class IncomeController {
     }
 
 
+    /**
+     * 收入类型列表
+     * @param userid
+     * @return
+     */
     @GetMapping("/typeList")
     public R<List<String>> list(@RequestParam String userid){
         log.info("进入添加收入记录函数，获取的userid:"+userid);

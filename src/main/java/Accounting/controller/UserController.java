@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -161,4 +162,25 @@ public class UserController {
 
     }
 
+    /**
+     * 删除子类
+     * @param bodyParams
+     * @return
+     */
+    @DeleteMapping("/deleteItem")
+    public R<String> deleteItem(@RequestBody Map<String,String> bodyParams){
+        Long userId=Long.valueOf(bodyParams.get("userId"));
+        String category = bodyParams.get("category");
+        String itemName = bodyParams.get("itemName");
+        if(category.equals("消费类型")){
+            spendingTypeService.deleteSpendingType(userId,itemName);
+            return R.success("删除 消费类型子类 成功！");
+        }else if(category.equals("消费凭证")){
+            spendingCredentialService.deleteSpendingCredential(userId,itemName);
+            return R.success("删除 消费凭证子类 成功！");
+        }else{
+            incomeTypeService.deleteItem(userId,itemName);
+            return R.success("删除 收入类型子类 成功！");
+        }
+    }
 }

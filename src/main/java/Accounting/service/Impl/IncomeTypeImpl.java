@@ -25,4 +25,9 @@ public class IncomeTypeImpl extends ServiceImpl<IncomeTypeMapper, IncomeType> im
         List<String> lists = baseMapper.getIncomeTypes(userId);
         return lists;
     }
+
+    @Override
+    public boolean deleteItem(Long userId, String incomeTypeName) {
+        return baseMapper.deleteItem(userId, incomeTypeName);
+    }
 }
