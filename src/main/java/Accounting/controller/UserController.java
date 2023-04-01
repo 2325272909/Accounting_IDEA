@@ -2,12 +2,16 @@ package Accounting.controller;
 
 import Accounting.common.BaseContext;
 import Accounting.common.R;
+import Accounting.entity.IncomeType;
+import Accounting.entity.SpendingCredential;
+import Accounting.entity.SpendingType;
 import Accounting.entity.User;
 import Accounting.service.IncomeTypeService;
 import Accounting.service.SpendingCredentialService;
 import Accounting.service.SpendingTypeService;
 import Accounting.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -183,4 +187,72 @@ public class UserController {
             return R.success("删除 收入类型子类 成功！");
         }
     }
+
+    /**
+     * 添加子类
+     */
+    @PostMapping("addItem")
+    public R<String> addItem(@RequestBody Map<String,String> bodyParams) {
+        Long userId = Long.valueOf(bodyParams.get("userId"));
+        Long id = Long.valueOf(bodyParams.get("id"));
+        String category = bodyParams.get("category");
+        String itemName = bodyParams.get("itemName");
+
+        if (category.equals("消费类型")) {
+            SpendingType spendingType = new SpendingType();
+            LambdaQueryWrapper<SpendingType> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SpendingType::getUserId, userId);
+            queryWrapper.eq(SpendingType::getSpendingTypeName, itemName);
+            SpendingType temp = spendingTypeService.getOne(queryWrapper);
+
+            if (temp != null) {
+                return R.error("已存在该分类！");
+            } else {
+                spendingType.setId(id);
+                spendingType.setUserId(userId);
+                spendingType.setSpendingTypeName(itemName);
+                spendingTypeService.save(spendingType);
+                return R.success("添加成功");
+            }
+
+        }
+        else if (category.equals("消费凭证")) {
+            SpendingCredential spendingCredential = new SpendingCredential();
+            LambdaQueryWrapper<SpendingCredential> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SpendingCredential::getUserId, userId);
+            queryWrapper.eq(SpendingCredential::getSpendingCredentialName, itemName);
+            SpendingCredential temp = spendingCredentialService.getOne(queryWrapper);
+
+            if (temp != null) {
+                return R.error("已存在该分类！");
+            } else {
+                spendingCredential.setId(id);
+                spendingCredential.setUserId(userId);
+                spendingCredential.setSpendingCredentialName(itemName);
+                spendingCredentialService.save(spendingCredential);
+                return R.success("添加成功");
+            }
+        }
+        else {
+            //收入类型
+            IncomeType incomeType = new IncomeType();
+            LambdaQueryWrapper<IncomeType> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(IncomeType::getUserId, userId);
+            queryWrapper.eq(IncomeType::getIncomeTypeName, itemName);
+            IncomeType temp = incomeTypeService.getOne(queryWrapper);
+
+            if (temp != null) {
+                return R.error("已存在该分类！");
+            } else {
+                incomeType.setId(id);
+                incomeType.setUserId(userId);
+                incomeType.setIncomeTypeName(itemName);
+                incomeTypeService.save(incomeType);
+                return R.success("添加成功");
+            }
+
+        }
+
+    }
+
 }

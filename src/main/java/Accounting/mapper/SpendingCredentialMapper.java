@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -13,4 +14,5 @@ import java.util.List;
 public interface SpendingCredentialMapper extends BaseMapper<SpendingCredential> {
     List<String> getSpendingCredential(Long userId);
     boolean deleteSpendingCredential(@Param("userId") Long userId, @Param("spendingCredentialName") String spendingCredentialName);
+
 }

@@ -5,12 +5,12 @@
 <mapper namespace="Accounting.mapper.IncomeTypeMapper">
 
     <select id="getIncomeTypes" resultType="String" parameterType="Long">
-        select income_type_name from IncomeType
+        select income_type_name from income_type
         where user_id=#{userId}
     </select>
 
     <delete id="deleteItem" >
-        delete from incometype
+        delete from income_type
         where user_id=#{userId} and income_type_name=#{incomeTypeName}
     </delete>
 

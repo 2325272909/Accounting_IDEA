@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Accounting.mapper.IncomeMapper">
+    <!--统计总收入-->
+    <select id="countIncomeMoney" parameterType="Long" resultType="BigDecimal">
+        select sum(income_money) from income where user_id = #{userId};
+    </select>
+
+    <!--按月统计收入记录-->
+    <select id="incomeListYearMonth" resultType="Accounting.entity.Income">
+        select* from income
+        where  year(income_time) = #{year } and month(income_time) = #{month} and user_id = #{userId}
+        order by income_time desc
+    </select>
+
+    <!--按年统计收入记录-->
+    <select id="incomeListYear" resultType="Accounting.entity.Income">
+        select* from income
+        where  year(income_time) = #{year}  and user_id = #{userId}
+        order by income_time desc
+    </select>
+
+</mapper>

@@ -5,12 +5,12 @@
 
 <mapper namespace="Accounting.mapper.SpendingTypeMapper">
     <select id="getSpendingTypes" resultType="String" parameterType="Long">
-        select spending_type_name from SpendingType
+        select spending_type_name from spending_type
         where user_id=#{userId}
     </select>
 
     <delete id="deleteSpendingType">
-        delete from spendingType
+        delete from spending_type
         where user_id=#{userId} and spending_type_name = #{spendingTypeName}
     </delete>
 

@@ -13,5 +13,5 @@ import lombok.Data;
 public class IncomeType {
     private Long id;
     private Long userId;
-    private String IncomeTypeName;  //收入类型名
+    private String incomeTypeName;  //收入类型名
 }
