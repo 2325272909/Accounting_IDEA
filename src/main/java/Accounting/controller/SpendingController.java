@@ -56,6 +56,21 @@ public class SpendingController {
     }
 
     /**
+     * 按月统计消费金额
+     * @param map
+     * @return
+     */
+    @GetMapping("/countSpendingYearMonthMoney")
+    public R<BigDecimal> countSpendingYearMonthMoney(@RequestBody Map<String,String> map){
+        log.info("进入消费按月统计函数，接收数据map:"+map);
+        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
+        String year = map.get("year");  //年
+        String month = map.get("month");  //月
+        BigDecimal money = spendingService.countSpendingYearMonthMoney(year,month,userId);
+        return R.success(money);
+    }
+
+    /**
      * 按年、月查询消费记录
      * @param map
      * @return

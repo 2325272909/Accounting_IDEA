@@ -28,6 +28,11 @@ public class SpendingImpl extends ServiceImpl<SpendingMapper, Spending> implemen
     }
 
     @Override
+    public BigDecimal countSpendingYearMonthMoney(String year, String month, Long userId) {
+        return baseMapper.countSpendingYearMonthMoney(year,month,userId);
+    }
+
+    @Override
     public List<Spending> listYearMonth(String year, String month, Long userId) {
         return baseMapper.listYearMonth(year,month,userId);
     }

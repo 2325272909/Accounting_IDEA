@@ -66,7 +66,7 @@ public class UserController {
         // 登陆成功,保存userName,userId
         session.setAttribute("userName", user.getUserName());
         session.setAttribute("userId",user.getId());
-        log.info("当前登录用户name:" + user.getUserName());
+        log.info("登陆函数,当前登录用户name:" + user.getUserName());
         //System.out.println("实验，查看session保存的name:" + (String) session.getAttribute("userName"));
         return R.success(user1);
 

@@ -69,6 +69,20 @@ public class IncomeController {
     }
 
     /**
+     * 统计每月收入
+     * @param map
+     * @return
+     */
+    @GetMapping("/countIncomeYearMonthMoney")
+    public R<BigDecimal> countIncomeYearMonthMoney(@RequestBody Map<String,String> map){
+        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
+        String year = map.get("year");  //年
+        String month = map.get("month");  //月
+        BigDecimal money = incomeService.countIncomeYearMonthMoney(year,month,userId);
+        return R.success(money);
+    }
+
+    /**
      * 按年、月查询收入记录
      * @param map
      * @return

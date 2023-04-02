@@ -26,6 +26,11 @@ public class IncomeImpl extends ServiceImpl<IncomeMapper, Income> implements Inc
     }
 
     @Override
+    public BigDecimal countIncomeYearMonthMoney(String year, String month, Long userId) {
+        return baseMapper.countIncomeYearMonthMoney(year,month,userId);
+    }
+
+    @Override
     public List<Income> incomeListYearMonth(String year, String month,Long userId) {
         return baseMapper.incomeListYearMonth(year,month,userId);
     }

@@ -8,6 +8,11 @@
         select sum(income_money) from income where user_id = #{userId};
     </select>
 
+    <!--统计月收入-->
+    <select id="countIncomeYearMonthMoney" resultType="BigDecimal">
+        select sum(income_money) from income where user_id = #{userId} and year(income_time) = #{year } and month(income_time) = #{month}
+    </select>
+
     <!--按月统计收入记录-->
     <select id="incomeListYearMonth" resultType="Accounting.entity.Income">
         select* from income

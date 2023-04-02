@@ -9,6 +9,10 @@
         select sum(spending_money) from spending where user_id = #{userId};
     </select>
 
+    <select id="countSpendingYearMonthMoney" resultType="BigDecimal">
+        select sum(spending_money) from spending
+        where user_id = #{userId} and year(spending_time) = #{year} and month(spending_time) = #{month};
+    </select>
     <!--按月统计消费记录-->
     <select id="listYearMonth" resultType="Accounting.entity.Spending">
         select* from spending
