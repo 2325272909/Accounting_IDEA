@@ -6,10 +6,7 @@ import Accounting.entity.IncomeType;
 import Accounting.entity.SpendingCredential;
 import Accounting.entity.SpendingType;
 import Accounting.entity.User;
-import Accounting.service.IncomeTypeService;
-import Accounting.service.SpendingCredentialService;
-import Accounting.service.SpendingTypeService;
-import Accounting.service.UserService;
+import Accounting.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -45,6 +44,10 @@ public class UserController {
 
     @Autowired
     private IncomeTypeService incomeTypeService;
+    @Autowired
+    private SpendingService spendingService;
+    @Autowired
+    private IncomeService incomeService;
 
     /**
      * 用户登录类
@@ -255,4 +258,33 @@ public class UserController {
 
     }
 
+
+    /**
+     * 统计消费、收入、余额（按月）
+     * @param year
+     * @param month
+     * @param userId
+     * @return
+     */
+    @GetMapping("/countMonthMoney")
+    public R<Map<String,String>> countMonthMoney(@RequestParam String year,@RequestParam String month,@RequestParam String userId) {
+
+        log.info("进入按月统计金额函数:" + year + "年" + month + "月" + userId);
+        Long id = Long.valueOf(userId);
+        BigDecimal spending_money = spendingService.countSpendingYearMonthMoney(year, month, id);
+        BigDecimal income_money = incomeService.countIncomeYearMonthMoney(year, month, id);
+
+        if (spending_money == null) {
+            spending_money = new BigDecimal(0);
+        }
+        if (income_money == null) {
+            income_money = new BigDecimal(0);
+        }
+        BigDecimal balance = income_money.subtract(spending_money);
+        Map<String, String> map = new HashMap<>();
+        map.put("spending", String.valueOf(spending_money));
+        map.put("income", String.valueOf(income_money));
+        map.put("balance", String.valueOf(balance));
+        return R.success(map);
+    }
 }

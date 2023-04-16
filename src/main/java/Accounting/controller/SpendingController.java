@@ -1,6 +1,7 @@
 package Accounting.controller;
 
 import Accounting.common.R;
+import Accounting.entity.CategoryType;
 import Accounting.entity.Income;
 import Accounting.entity.Spending;
 import Accounting.service.SpendingService;
@@ -57,33 +58,37 @@ public class SpendingController {
 
     /**
      * 按月统计消费金额
-     * @param map
-     * @return
      */
     @GetMapping("/countSpendingYearMonthMoney")
-    public R<BigDecimal> countSpendingYearMonthMoney(@RequestBody Map<String,String> map){
-        log.info("进入消费按月统计函数，接收数据map:"+map);
-        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
-        String year = map.get("year");  //年
-        String month = map.get("month");  //月
-        BigDecimal money = spendingService.countSpendingYearMonthMoney(year,month,userId);
+    public R<BigDecimal> countSpendingYearMonthMoney(@RequestParam String year,@RequestParam String month,@RequestParam String userId){
+//        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
+//        String year = map.get("year");  //年
+//        String month = map.get("month");  //月
+        log.info("进入按月统计金额函数:"+year+"年"+month+"月"+userId);
+        Long id = Long.valueOf(userId);
+        BigDecimal money = spendingService.countSpendingYearMonthMoney(year,month,id);
+        log.info("money:"+money);
+        if(money==null){
+            return R.success(new BigDecimal(0));
+        }
         return R.success(money);
     }
 
     /**
      * 按年、月查询消费记录
-     * @param map
      * @return
      */
     @GetMapping("/listYearMonth")
-    public R<List<Spending>> listYearMonth(@RequestBody Map<String,String> map){
-        log.info("进入消费按月展示函数，接收数据map:"+map);
-        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
-        String year = map.get("year");  //年
-        String month = map.get("month");  //月
-        List<Spending> list = spendingService.listYearMonth(year,month,userId);
+    public R<List<Spending>> listYearMonth(@RequestParam String year,@RequestParam String month,@RequestParam String userId){
+        log.info("进入消费按月展示函数，接收数据:"+year+"年"+month+"月"+userId );
+        Long id=Long.valueOf(userId);  //获取用户id
+        List<Spending> list = spendingService.listYearMonth(year,month,id);
+        if(list.isEmpty()){
+            return R.error("无数据");
+        }
         return R.success(list);
     }
+
     /**
      * 按年查询消费记录
      * @param map
@@ -96,6 +101,17 @@ public class SpendingController {
         String year = map.get("year");  //年
         String month = map.get("month");  //月
         List<Spending> list = spendingService.spendingListYear(year,month,userId);
+        return R.success(list);
+    }
+
+
+    /**
+     * 分类统计消费记录，绘制饼图
+     */
+    @GetMapping("/countSpendingCategory")
+    public R<List<CategoryType>> countSpendingCategory(@RequestParam String year,@RequestParam String month,@RequestParam Long userId){
+        log.info("进入统计分类-消费函数，接收userId:"+userId);
+        List<CategoryType> list = spendingService.SpendingCategory(year,month,userId);
         return R.success(list);
     }
 

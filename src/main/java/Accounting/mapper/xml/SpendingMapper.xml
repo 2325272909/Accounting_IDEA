@@ -27,4 +27,10 @@
         order by spending_time desc
     </select>
 
+    <select id="SpendingCategory" resultType="Accounting.entity.CategoryType" >
+        select  spending_type_name as typename,sum(spending_money) as money from spending
+        where user_id=1 and year(spending_time) = #{year} and month(spending_time) = #{month}
+        group by spending_type_name;
+    </select>
+
 </mapper>

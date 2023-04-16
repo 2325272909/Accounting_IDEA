@@ -10,7 +10,8 @@
 
     <!--统计月收入-->
     <select id="countIncomeYearMonthMoney" resultType="BigDecimal">
-        select sum(income_money) from income where user_id = #{userId} and year(income_time) = #{year } and month(income_time) = #{month}
+        select sum(income_money) from income
+        where user_id = #{userId} and year(income_time) = #{year } and month(income_time) = #{month}
     </select>
 
     <!--按月统计收入记录-->
@@ -25,6 +26,12 @@
         select* from income
         where  year(income_time) = #{year}  and user_id = #{userId}
         order by income_time desc
+    </select>
+
+    <select id="IncomeCategory" resultType="Accounting.entity.CategoryType">
+        select  income_type_name as typename,sum(income_money) as money from income
+        where user_id=1 and year(income_time) = #{year} and month(income_time) = #{month}
+        group by income_type_name;
     </select>
 
 </mapper>

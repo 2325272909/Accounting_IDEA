@@ -1,11 +1,13 @@
 package Accounting.service.Impl;
 
+import Accounting.entity.CategoryType;
 import Accounting.entity.Income;
 import Accounting.entity.Spending;
 import Accounting.mapper.SpendingMapper;
 import Accounting.service.SpendingService;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +42,10 @@ public class SpendingImpl extends ServiceImpl<SpendingMapper, Spending> implemen
     @Override
     public List<Spending> spendingListYear(String year, String month, Long userId) {
         return baseMapper.spendingListYear(year,month,userId);
+    }
+
+    @Override
+    public List<CategoryType> SpendingCategory(@Param("year") String year, @Param(("month")) String month, @Param("userId") Long userId) {
+        return baseMapper.SpendingCategory(year,month,userId);  //分类统计消费记录，绘制饼图
     }
 }

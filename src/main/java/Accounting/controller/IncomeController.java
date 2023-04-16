@@ -70,29 +70,29 @@ public class IncomeController {
 
     /**
      * 统计每月收入
-     * @param map
-     * @return
+     *
      */
     @GetMapping("/countIncomeYearMonthMoney")
-    public R<BigDecimal> countIncomeYearMonthMoney(@RequestBody Map<String,String> map){
-        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
-        String year = map.get("year");  //年
-        String month = map.get("month");  //月
-        BigDecimal money = incomeService.countIncomeYearMonthMoney(year,month,userId);
+    public R<BigDecimal> countIncomeYearMonthMoney(@RequestParam String year,@RequestParam String month,@RequestParam String userId){
+
+         Long id = Long.valueOf(userId);
+        BigDecimal money = incomeService.countIncomeYearMonthMoney(year,month,id);
+        if(money==null){
+            return R.success(new BigDecimal(0));
+        }
         return R.success(money);
     }
 
     /**
      * 按年、月查询收入记录
-     * @param map
      * @return
      */
-    @GetMapping("/listYearMonth")
-    public R<List<Income>> listYearMonth(@RequestBody Map<String,String> map){
-        Long userId=Long.valueOf(map.get("userId"));  //获取用户id
-        String year = map.get("year");  //年
-        String month = map.get("month");  //月
-        List<Income> list = incomeService.incomeListYearMonth(year,month,userId);
+    @GetMapping("/listIncomeYearMonth")
+    public R<List<Income>> listYearMonth(@RequestParam String year,@RequestParam String month,@RequestParam String userId){
+        log.info("进入消费按月展示函数，接收数据:"+year+"年"+month+"月"+userId );
+
+        Long id=Long.valueOf(userId);  //获取用户id
+        List<Income> list = incomeService.incomeListYearMonth(year,month,id);
         return R.success(list);
     }
 

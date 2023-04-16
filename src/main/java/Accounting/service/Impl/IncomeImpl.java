@@ -1,5 +1,6 @@
 package Accounting.service.Impl;
 
+import Accounting.entity.CategoryType;
 import Accounting.entity.Income;
 import Accounting.mapper.IncomeMapper;
 import Accounting.service.IncomeService;
@@ -38,5 +39,10 @@ public class IncomeImpl extends ServiceImpl<IncomeMapper, Income> implements Inc
     @Override
     public List<Income> incomeListYear(String year, String month, Long userId) {
         return baseMapper.incomeListYear(year,month,userId);
+    }
+
+    @Override
+    public List<CategoryType> SpendingCategory(String year, String month, Long userId) {
+        return baseMapper.IncomeCategory(year,month,userId);
     }
 }
