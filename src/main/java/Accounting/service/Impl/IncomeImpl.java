@@ -42,7 +42,7 @@ public class IncomeImpl extends ServiceImpl<IncomeMapper, Income> implements Inc
     }
 
     @Override
-    public List<CategoryType> SpendingCategory(String year, String month, Long userId) {
+    public List<CategoryType> IncomeCategory(String year, String month, Long userId) {
         return baseMapper.IncomeCategory(year,month,userId);
     }
 }

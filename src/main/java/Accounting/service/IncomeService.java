@@ -16,5 +16,5 @@ public interface IncomeService extends IService<Income> {
     List<Income> incomeListYearMonth(@Param("year") String year, @Param(("month")) String month,@Param("userId") Long userId); //根据年、月进行查询
     List<Income> incomeListYear(@Param("year") String year,@Param(("month")) String month,@Param("userId") Long userId);  //根据年份进行查询
 
-    List<CategoryType> SpendingCategory(@Param("year") String year, @Param(("month")) String month, @Param("userId") Long userId);  //按分类统计收入记录，进行分类
+    List<CategoryType> IncomeCategory(@Param("year") String year, @Param(("month")) String month, @Param("userId") Long userId);  //按分类统计收入记录，进行分类
 }

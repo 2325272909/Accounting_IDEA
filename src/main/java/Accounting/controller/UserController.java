@@ -96,15 +96,8 @@ public class UserController {
      * 用户编辑类,用户名不能相同，修改基本信息
      */
     @PostMapping("/update")
-    public R<User> update(@RequestBody User user,HttpSession session){
+    public R<User> update(@RequestBody User user){
         log.info("进入用户更新函数："+ user);
-        Long id = (Long)session.getAttribute("userId");
-        String name = (String)session.getAttribute("userName");  //目前登录的用户名
-        log.info("用户name:"+name);
-//        if(id==null){
-//            return R.error("用户未登录！");   //其实这是一个悖论，用户登陆后才会进到更新界面，测试使用
-//        }
-//        user.setId(id);
 
         //查看是否存在用户名相同的用户
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -112,28 +105,19 @@ public class UserController {
         User user1 = userService.getOne(queryWrapper);
 
         //如果有用户存在，且用户名不是目前登录的用户名，则表示已经有用户存在，
-        if(user1!=null && !user.getUserName().equals(name)){
+        if(user1!=null && !user.getUserName().equals(user1.getUserName())){
             return R.error("用户名已存在！");
         }
         userService.updateById(user);
-        session.setAttribute("userName",user.getUserName());
-        session.setAttribute("userId",user.getId());
         return R.success(user);
     }
 
     //修改密码
     @PostMapping("/updatePassword")
     public R<String> updatePassword(@RequestBody User user,HttpSession session){
-        Long id = (Long)session.getAttribute("userId");
-        log.info("进入修改密码函数，获取的session中userId:"+id);
-        if(Objects.equals(id, user.getId())){
-            userService.updateById(user);
-            session.setAttribute("userId",id);
-            return R.success("修改密码成功！");
-
-        }else{
-            return R.error("用户未登录！");
-        }
+        log.info("进入修改密码函数，user:"+user);
+        userService.updateById(user);
+        return R.success("修改密码成功！");
 
     }
 
@@ -152,11 +136,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/item/list")
-    public R<List<String>> ItemList(@RequestParam String category,HttpSession session){
-        Long userId =  (Long)session.getAttribute("userId");
-        Long userId1 = BaseContext.getCurrentId();
-        log.info("进入category:"+category);
-        log.info("userId:"+userId+"  userId1:"+userId1);
+    public R<List<String>> ItemList(@RequestParam String category,@RequestParam Long userId){
+        log.info("进入category:"+category+" userId:"+userId);
 //        userId= Long.valueOf("1");
        if(Objects.equals(category, "消费类型")){
          return R.success(spendingTypeService.getSpendingTypes(userId));

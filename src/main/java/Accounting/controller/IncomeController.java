@@ -1,6 +1,7 @@
 package Accounting.controller;
 
 import Accounting.common.R;
+import Accounting.entity.CategoryType;
 import Accounting.entity.Income;
 import Accounting.entity.Spending;
 import Accounting.service.IncomeService;
@@ -108,6 +109,28 @@ public class IncomeController {
         String month = map.get("month");  //月
         List<Income> list = incomeService.incomeListYear(year,month,userId);
         return R.success(list);
+    }
+
+    @GetMapping("/countIncomeCategory")
+    public R<List<CategoryType>> countIncomeCategory(@RequestParam String year, @RequestParam String month, @RequestParam Long userId){
+        log.info("进入统计分类-消费函数，接收userId:"+userId);
+        List<CategoryType> list =incomeService.IncomeCategory(year,month,userId);
+        return R.success(list);
+    }
+
+    @DeleteMapping("delete_income")
+    public R<String> deleteIncome(@RequestBody Map<String,Long> bodyParams){
+        Long incomeId =bodyParams.get("incomeId");
+        log.info("进入删除收入记录函数,incomeId:"+incomeId);
+        incomeService.removeById(incomeId);
+        return R.success("删除成功");
+    }
+
+    @PostMapping("updateIncome")
+    public R<String> updateIncome(@RequestBody Income income){
+        log.info("进入修改收入记录函数:"+income);
+        incomeService.updateById(income);
+        return R.success("更新成功");
     }
 
 

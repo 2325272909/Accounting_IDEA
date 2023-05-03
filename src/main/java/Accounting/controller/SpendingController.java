@@ -115,4 +115,18 @@ public class SpendingController {
         return R.success(list);
     }
 
+    @DeleteMapping("delete_spending")
+    public R<String> deleteSpending(@RequestBody Map<String,Long> bodyParams){
+        Long spendingId =bodyParams.get("spendingId");
+        log.info("进入删除消费记录函数,spendingId:"+spendingId);
+        spendingService.removeById(spendingId);
+        return R.success("删除成功");
+    }
+
+    @PostMapping("updateSpending")
+    public R<String> updateSpending(@RequestBody Spending spending){
+        log.info("进入修改消费记录函数:"+spending);
+        spendingService.updateById(spending);
+        return R.success("更新成功");
+    }
 }
