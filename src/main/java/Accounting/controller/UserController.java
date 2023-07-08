@@ -160,6 +160,7 @@ public class UserController {
         Long userId=Long.valueOf(bodyParams.get("userId"));
         String category = bodyParams.get("category");
         String itemName = bodyParams.get("itemName");
+        log.info("接收的参数：userId="+ userId + " category="+category+" itemName="+itemName);
         if(category.equals("消费类型")){
             spendingTypeService.deleteSpendingType(userId,itemName);
             return R.success("删除 消费类型子类 成功！");
